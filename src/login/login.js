@@ -20,7 +20,10 @@ document.addEventListener("DOMContentLoaded", () =>{
 window.setItemsInLocalStorage = ({accessToken, tokenType, expires_in})=>{
     localStorage.setItem(ACCESS_TOKEN, accessToken);
     localStorage.setItem(TOKEN_TYPE, tokenType);
-    localStorage.setItem(EXPIRES_IN, expires_in);
+    // when we get the expire time this values in second and we need to monitor the time because by default the expire time is 3600sec means 1 hour after that we need to re login
+    // for monitoring we need to convert the expire time into mili seconds from seconds because date.now gives the time in mili seconds
+    // Actually when we loged in it stores the access token, and token type and we also be storing the (expireint*100)ms + currtime means the time when token will expire
+    localStorage.setItem(EXPIRES_IN, (Date.now() + (expires_in*1000)));;
     // window.location.href = `${APP_URL}/dashboard/dashboard.html`;
     window.location.href = APP_URL;
 }
